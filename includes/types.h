@@ -11,6 +11,8 @@ typedef struct s_args
 
 typedef struct s_cell
 {
+	size_t	y;
+	size_t	x;
 	int		value;				// Valeur de la cellule (0 si inconnue)
 	int		*possible_values;	// Tableau des valeurs possibles pour la cellule
 	size_t	possible_size;		// Taille de possible_values (nombre de valeurs possibles pour la cellule)

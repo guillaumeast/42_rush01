@@ -16,13 +16,15 @@ static t_run	*init_possibilities(t_run *run, t_cell *cell)
 	return (run);
 }
 
-t_cell	*new_cell(t_run *run, int value)
+t_cell	*new_cell(t_run *run, size_t y, size_t x, int value)
 {
 	t_cell	*cell;
 
 	cell = malloc(sizeof(t_cell));
-	if (!cell)
+	if (!run || !cell)
 		return (NULL);
+	cell->y = y;
+	cell->x = x;
 	cell->value = value;
 	if (cell->value == 0)
 	{
@@ -43,6 +45,8 @@ t_cell	*new_cell(t_run *run, int value)
 
 void	set_value(t_cell *cell, int value)
 {
+	if (cell->value != 0)
+		return ;
 	cell->value = value;
 	if (cell->possible_values)
 	{
@@ -59,6 +63,8 @@ t_run	*remove_possibilitie(t_run *run, t_cell *cell, int possibilitie)
 	size_t	j;
 
 	// TODO: remove realloc for optimisation ?
+	if (!run || cell->value != 0)
+		return (run);
 	new_values = malloc((cell->possible_size - 1) * sizeof(int));
 	if (!new_values)
 		return (free_run(run));

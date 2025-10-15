@@ -11,6 +11,8 @@
 # include "cell.h"
 # include "map.h"
 # include "run.h"
+# include "minmax.h"
+# include "propage.h"
 # include "print.h"
 
 #endif

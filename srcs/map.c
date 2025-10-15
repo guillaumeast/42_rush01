@@ -17,7 +17,7 @@ static t_run	*init_content(t_run *run)
 		j = 0;
 		while (j < run->map.size)
 		{
-			run->map.content[i][j] = new_cell(run, 0);
+			run->map.content[i][j] = new_cell(run, i, j, 0);
 			if (!run->map.content[i][j])
 				return (free_run(run));
 			j++;

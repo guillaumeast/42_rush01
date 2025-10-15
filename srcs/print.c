@@ -53,12 +53,15 @@ void	print_args(t_run *run)
 	}
 }
 
-void	print_run(t_run *run)
+void	print_run(t_run *run, char *title)
 {
 	if (!run)
 		write(2, "No run\n", 7);
 	else
 	{
+		write(1, "\n-----------------------------------------\n", 43);
+		write(1, title, ft_strlen(title));
+		write(1, "\n", 1);
 		write(1, "------------------ RUN ------------------\n", 42);
 		print_args(run);
 		write(1, "-----------------------------------------\n", 42);
