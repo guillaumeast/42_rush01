@@ -1,6 +1,6 @@
 NAME	:= rush01
 CC		:= cc
-CFLAGS	:= -Wall -Wextra -Werror -MMD -MP
+CFLAGS	:= -Wall -Wextra -Werror -MMD -MP -g3
 
 SRC_DIR	:= srcs
 INC_DIR	:= includes

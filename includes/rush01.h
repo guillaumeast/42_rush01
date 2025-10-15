@@ -12,6 +12,7 @@
 # include "map.h"
 # include "run.h"
 # include "minmax.h"
+# include "row.h"
 # include "propage.h"
 # include "print.h"
 

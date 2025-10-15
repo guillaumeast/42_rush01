@@ -1,5 +1,45 @@
 #include "rush01.h"
 
+void	print_int_tab(int *tab, size_t size, int nl)
+{
+	size_t	i;
+
+	printf("[");
+	i = 0;
+	while (tab && i < size)
+	{
+		printf("%d", tab[i]);
+		if (i < size - 1)
+			printf("|");
+		i++;
+	}
+	printf("]");
+	if (nl)
+		printf("\n");
+}
+
+void	print_args(t_run *run)
+{
+	if (!run)
+		return ;
+	else if (!run->args.values)
+		printf("|-> No args\n");
+	else
+	{
+		printf("|-> args = (%zu) ", run->args.size);
+		print_int_tab(run->args.values, run->args.size, 1);
+	}
+}
+
+void	print_cell(t_cell *cell)
+{
+	printf("------------CELL[%zu][%zu]------------\n", cell->y, cell->x);
+	printf("|-> value = %d\n", cell->value);
+	printf("|-> possibilities (%zu) = ", cell->possible_size);
+	print_int_tab(cell->possible_values, cell->possible_size, 1);
+	printf("----------------------------------\n");
+}
+
 void	print_map(t_run *run)
 {
 	size_t	i;
@@ -8,7 +48,7 @@ void	print_map(t_run *run)
 	if (!run)
 		return ;
 	else if (!run->map.content)
-		write(2, "No map\n", 7);
+		printf("No map\n");
 	else
 	{
 		i = 0;
@@ -29,40 +69,13 @@ void	print_map(t_run *run)
 	}
 }
 
-void	print_args(t_run *run)
-{
-	size_t	i;
-
-	if (!run)
-		return ;
-	else if (!run->args.values)
-		write(2, "No args\n", 8);
-	else
-	{
-		write(1, "args.size   = ", 14);
-		ft_putnbr(run->args.size);
-		write(1, "\n", 1);
-		write(1, "args.values = ", 14);
-		i = 0;
-		while (i < run->args.size)
-		{
-			ft_putnbr(run->args.values[i]);
-			i++;
-		}
-		write(1, "\n", 1);
-	}
-}
-
-void	print_run(t_run *run, char *title)
+void	print_run(t_run *run)
 {
 	if (!run)
 		write(2, "No run\n", 7);
 	else
 	{
-		write(1, "\n-----------------------------------------\n", 43);
-		write(1, title, ft_strlen(title));
-		write(1, "\n", 1);
-		write(1, "------------------ RUN ------------------\n", 42);
+		write(1, "\n------------------ RUN ------------------\n", 43);
 		print_args(run);
 		write(1, "-----------------------------------------\n", 42);
 		print_map(run);

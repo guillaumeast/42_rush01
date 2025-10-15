@@ -62,7 +62,6 @@ t_run	*remove_possibilitie(t_run *run, t_cell *cell, int possibilitie)
 	size_t	i;
 	size_t	j;
 
-	// TODO: remove realloc for optimisation ?
 	if (!run || cell->value != 0)
 		return (run);
 	new_values = malloc((cell->possible_size - 1) * sizeof(int));
@@ -79,6 +78,7 @@ t_run	*remove_possibilitie(t_run *run, t_cell *cell, int possibilitie)
 	cell->possible_size--;
 	free(cell->possible_values);
 	cell->possible_values = new_values;
+	printf("||===> REMOVED: cell[%zu][%zu] -= %d\n", cell->y, cell->x, possibilitie);
 	return (run);
 }
 
