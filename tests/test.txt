@@ -1,0 +1,17 @@
+/rush-01 "	col1up col2up col3up col4up
+			col1down col2down col3down col4down
+			row1left row2left row3left row4left
+			row1right row2right row3right row4right"
+
+example map :
+
+  4 3 2 1
+4 . . . . 1
+3 . . . . 2
+2 . . . . 2
+1 . . . . 2
+  1 2 2 2
+
+example input :
+
+4 3 2 1 1 2 2 2 4 3 2 1 1 2 2 2

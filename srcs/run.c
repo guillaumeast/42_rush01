@@ -1,0 +1,31 @@
+#include "rush01.h"
+
+// Caller must free
+t_run	*init_run(int argc, char **argv)
+{
+	t_run	*run;
+	int		i;
+
+	run = malloc(sizeof(run));
+	if (!run)
+		return (NULL);
+	run->args.size = argc - 1;
+	run->args.values = malloc(run->args.size * sizeof(int));
+	if (!run->args.values)
+		return (free_run(run));
+	i = 0;
+	while (i < run->args.size)
+	{
+		run->args.values[i] = argv[i + 1] - '0';
+		i++;
+	}
+	return (run);
+}
+
+t_run	*free_run(t_run *run)
+{
+	free_args(run->args);
+	free_map(run->map);
+	free(run);
+	return (NULL);
+}
