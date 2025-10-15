@@ -7,6 +7,7 @@
 # include <stdio.h>		// printf() - debug only
 
 # include "types.h"
+# include "utils.h"
 # include "cell.h"
 # include "map.h"
 # include "run.h"

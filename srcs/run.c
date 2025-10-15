@@ -4,9 +4,9 @@
 t_run	*new_run(int argc, char **argv)
 {
 	t_run	*run;
-	int		i;
+	size_t	i;
 
-	run = malloc(sizeof(run));
+	run = malloc(sizeof(t_run));
 	if (!run)
 		return (NULL);
 	run->args.size = argc - 1;
@@ -16,7 +16,7 @@ t_run	*new_run(int argc, char **argv)
 	i = 0;
 	while (i < run->args.size)
 	{
-		run->args.values[i] = argv[i + 1] - '0';
+		run->args.values[i] = argv[i + 1][0] - '0';
 		i++;
 	}
 	run->map.content = NULL;

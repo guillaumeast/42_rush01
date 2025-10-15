@@ -24,18 +24,18 @@ static t_run	*init_content(t_run *run)
 		}
 		i++;
 	}
-	return (run->map.content);
+	return (run);
 }
 
 t_run	*init_map(t_run *run)
 {
-	int	i;
-	int j;
+	size_t	i;
+	size_t	j;
 
 	if (!run)
 		return (NULL);
 	run->map.size = run->args.size / 4 + 2;
-	init_content(run);
+	run = init_content(run);
 	if (!run)
 		return (NULL);
 	j = 0;
@@ -60,7 +60,7 @@ void	free_map(t_run *run)
 	size_t	j;
 
 	if (!run || !run->map.content)
-		return (NULL);
+		return ;
 	i = 0;
 	while (i < run->map.size && run->map.content[i])
 	{
@@ -73,5 +73,5 @@ void	free_map(t_run *run)
 	}
 	free(run->map.content);
 	run->map.content = NULL;
-	return (NULL);
+	return ;
 }

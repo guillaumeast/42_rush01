@@ -13,6 +13,7 @@ static t_run	*init_possibilities(t_run *run, t_cell *cell)
 	value = 1;
 	while (i < cell->possible_size)
 		cell->possible_values[i++] = value++;
+	return (run);
 }
 
 t_cell	*new_cell(t_run *run, int value)
@@ -25,7 +26,7 @@ t_cell	*new_cell(t_run *run, int value)
 	cell->value = value;
 	if (cell->value == 0)
 	{
-		init_possibilities(run, cell);
+		run = init_possibilities(run, cell);
 		if (!run)
 		{
 			free(cell);
@@ -78,7 +79,7 @@ t_run	*remove_possibilitie(t_run *run, t_cell *cell, int possibilitie)
 void	free_cell(t_cell *cell)
 {
 	if (!cell)
-		return (NULL);
+		return ;
 	if (cell->possible_values)
 		free(cell->possible_values);
 	free(cell);

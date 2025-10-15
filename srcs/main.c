@@ -3,8 +3,6 @@
 int	main(int argc, char **argv)
 {
 	t_run	*run;
-	int		*args_int;
-	int		i;
 
 	if (argc < 13 || argc > 37 || (argc - 1) % 4 != 0)
 	{
@@ -13,6 +11,8 @@ int	main(int argc, char **argv)
 	}
 	run = new_run(argc, argv);
 	print_run(run);
-	init_map(run);
+	printf("DEBUG: before init_map\n");
+	run = init_map(run);
+	printf("DEBUG: after init_map\n\n");
 	print_run(run);
 }
