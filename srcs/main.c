@@ -12,4 +12,5 @@ int	main(int argc, char **argv)
 	run = new_run(argc, argv);
 	run = init_map(run);
 	run = solve(run);
+	return (0);
 }

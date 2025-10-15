@@ -19,7 +19,7 @@ t_run	*new_run(int argc, char **argv)
 		run->args.values[i] = argv[i + 1][0] - '0';
 		i++;
 	}
-	run->map.content = NULL;
+	run->map.cells = NULL;
 	run->map.size = 0;
 	return (run);
 }

@@ -11,9 +11,10 @@
 # include "cell.h"
 # include "map.h"
 # include "run.h"
+# include "backtrack.h"
 # include "minmax.h"
-# include "row.h"
-# include "propage.h"
+# include "rowcol.h"
+# include "solver.h"
 # include "print.h"
 
 #endif

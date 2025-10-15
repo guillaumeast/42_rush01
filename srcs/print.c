@@ -35,8 +35,8 @@ void	print_cell(t_cell *cell)
 {
 	printf("------------CELL[%zu][%zu]------------\n", cell->y, cell->x);
 	printf("|-> value = %d\n", cell->value);
-	printf("|-> possibilities (%zu) = ", cell->possible_size);
-	print_int_tab(cell->possible_values, cell->possible_size, 1);
+	printf("|-> possibilities (%d) = ", cell->choices.sum);
+	print_int_tab(cell->choices.tab, cell->choices.size, 1);
 	printf("----------------------------------\n");
 }
 
@@ -47,20 +47,20 @@ void	print_map(t_run *run)
 
 	if (!run)
 		return ;
-	else if (!run->map.content)
+	else if (!run->map.cells)
 		printf("No map\n");
 	else
 	{
 		i = 0;
-		while (i < run->map.size && run->map.content[i])
+		while (i < run->map.size && run->map.cells[i])
 		{
 			j = 0;
-			while (j < run->map.size && run->map.content[i][j])
+			while (j < run->map.size && run->map.cells[i][j])
 			{
-				if (run->map.content[i][j]->value == 0)
+				if (run->map.cells[i][j]->value == 0)
 					write (1, " ", 1);
 				else
-					ft_putnbr(run->map.content[i][j]->value);
+					ft_putnbr(run->map.cells[i][j]->value);
 				j++;
 			}
 			write(1, "\n", 1);

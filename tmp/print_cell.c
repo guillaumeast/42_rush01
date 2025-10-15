@@ -42,13 +42,13 @@ static char	*get_line_1(t_cell *cell)
 {
 	if (cell->value > 0)
 		return "│ ┌───┐ │";
-	else if (cell->possible_values[0] == 1 && cell->possible_values[1] == 1)
+	else if (cell->choices.tab[0] == 1 && cell->choices.tab[1] == 1)
 		return "│ 1   2 │";
-	else if (cell->possible_values[0] == 1 && cell->possible_values[1] == 0)
+	else if (cell->choices.tab[0] == 1 && cell->choices.tab[1] == 0)
 		return "│ 1     │";
-	else if (cell->possible_values[0] == 0 && cell->possible_values[1] == 0)
+	else if (cell->choices.tab[0] == 0 && cell->choices.tab[1] == 0)
 		return "│       │";
-	else if (cell->possible_values[0] == 0 && cell->possible_values[1] == 1)
+	else if (cell->choices.tab[0] == 0 && cell->choices.tab[1] == 1)
 		return "│     2 │";
 }
 
@@ -65,13 +65,13 @@ void	print_cell_sqr(t_run *run, t_cell *cell)
 	if (cell->value == 0)
 	{
 		res[2] = "│       │";
-		if (cell->possible_values[2] == 1 && cell->possible_values[3] == 1)
+		if (cell->choices.tab[2] == 1 && cell->choices.tab[3] == 1)
 			res[3] = "│ 3   4 │";
-		else if (cell->possible_values[2] == 1 && cell->possible_values[3] == 0)
+		else if (cell->choices.tab[2] == 1 && cell->choices.tab[3] == 0)
 			res[3] = "│ 3     │";
-		else if (cell->possible_values[2] == 0 && cell->possible_values[3] == 0)
+		else if (cell->choices.tab[2] == 0 && cell->choices.tab[3] == 0)
 			res[3] = "│       │";
-		else if (cell->possible_values[2] == 0 && cell->possible_values[3] == 1)
+		else if (cell->choices.tab[2] == 0 && cell->choices.tab[3] == 1)
 			res[3] = "│     4 │";
 	}
 	else

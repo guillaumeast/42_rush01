@@ -7,21 +7,21 @@ static t_run	*minmax_colup(t_run *run)
 	int		value;
 	
 	x = 1;
-	while (run && x < run->map.size - 1)
+	while (x < run->map.size - 1)
 	{
-		if (run->map.content[0][x]->value == (int) run->map.size - 2)
+		if (run->map.cells[0][x]->value == (int) run->map.size - 2)
 		{
 			y = 1;
 			value = 1;
-			while (run && y < run->map.size - 1)
+			while (y < run->map.size - 1)
 			{
-				run = solve_cell(run, run->map.content[y][x], value);
+				solve_cell(run, run->map.cells[y][x], value);
 				y++;
 				value++;
 			}
 		}
-		else if (run->map.content[0][x]->value == 1)
-			run = solve_cell(run, run->map.content[1][x], (int) run->map.size - 2);
+		else if (run->map.cells[0][x]->value == 1)
+			solve_cell(run, run->map.cells[1][x], (int) run->map.size - 2);
 		x++;
 	}
 	return (run);
@@ -34,21 +34,21 @@ static t_run	*minmax_coldown(t_run *run)
 	int		value;
 	
 	x = 1;
-	while (run && x < run->map.size - 1)
+	while (x < run->map.size - 1)
 	{
-		if (run->map.content[run->map.size - 1][x]->value == (int) run->map.size - 2)
+		if (run->map.cells[run->map.size - 1][x]->value == (int) run->map.size - 2)
 		{
 			y = 1;
 			value = run->map.size - 2;
-			while (run && y < run->map.size - 1)
+			while (y < run->map.size - 1)
 			{
-				run = solve_cell(run, run->map.content[y][x], value);
+				solve_cell(run, run->map.cells[y][x], value);
 				y++;
 				value--;
 			}
 		}
-		else if (run->map.content[run->map.size - 1][x]->value == 1)
-			run = solve_cell(run, run->map.content[run->map.size - 2][x], (int) run->map.size - 2);
+		else if (run->map.cells[run->map.size - 1][x]->value == 1)
+			solve_cell(run, run->map.cells[run->map.size - 2][x], (int) run->map.size - 2);
 		x++;
 	}
 	return (run);
@@ -61,21 +61,21 @@ static t_run	*minmax_rowleft(t_run *run)
 	int		value;
 	
 	y = 1;
-	while (run && y < run->map.size - 1)
+	while (y < run->map.size - 1)
 	{
-		if (run->map.content[y][0]->value == (int) run->map.size - 2)
+		if (run->map.cells[y][0]->value == (int) run->map.size - 2)
 		{
 			x = 1;
 			value = 1;
-			while (run && x < run->map.size - 1)
+			while (x < run->map.size - 1)
 			{
-				run = solve_cell(run, run->map.content[y][x], value);
+				solve_cell(run, run->map.cells[y][x], value);
 				x++;
 				value++;
 			}
 		}
-		else if (run->map.content[y][0]->value == 1)
-			run = solve_cell(run, run->map.content[y][1], (int) run->map.size - 2);
+		else if (run->map.cells[y][0]->value == 1)
+			solve_cell(run, run->map.cells[y][1], (int) run->map.size - 2);
 		y++;
 	}
 	return (run);
@@ -90,19 +90,19 @@ static t_run	*minmax_rowright(t_run *run)
 	y = 1;
 	while (y < run->map.size - 1)
 	{
-		if (run->map.content[y][run->map.size - 1]->value == (int) run->map.size - 2)
+		if (run->map.cells[y][run->map.size - 1]->value == (int) run->map.size - 2)
 		{
 			x = 1;
 			value = run->map.size - 2;
-			while (run && x < run->map.size - 1)
+			while (x < run->map.size - 1)
 			{
-				run = solve_cell(run, run->map.content[y][x], value);
+				solve_cell(run, run->map.cells[y][x], value);
 				x++;
 				value--;
 			}
 		}
-		else if (run && run->map.content[y][run->map.size - 1]->value == 1)
-			run = solve_cell(run, run->map.content[y][run->map.size - 2], (int) run->map.size - 2);
+		else if (run && run->map.cells[y][run->map.size - 1]->value == 1)
+			solve_cell(run, run->map.cells[y][run->map.size - 2], (int) run->map.size - 2);
 		y++;
 	}
 	return (run);
