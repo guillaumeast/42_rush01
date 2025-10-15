@@ -14,7 +14,6 @@
 # include "backtrack.h"
 # include "minmax.h"
 # include "rowcol.h"
-# include "solver.h"
 # include "print.h"
 
 #endif
