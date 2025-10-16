@@ -3,82 +3,47 @@
 void	print_int_tab(int *tab, size_t size, int nl)
 {
 	size_t	i;
+	char	c;
 
-	printf("[");
+	write(1, "[", 1);
 	i = 0;
 	while (tab && i < size)
 	{
-		printf("%d", tab[i]);
+		c = tab[i] + '0';
+		write(1, &c, 1);
 		if (i < size - 1)
-			printf("|");
+			write(1, "|", 1);
 		i++;
 	}
-	printf("]");
+	write(1, "]", 1);
 	if (nl)
-		printf("\n");
+		write(1, "\n", 1);
 }
 
-void	print_args(t_run *run)
+void	print_args(t_args *args)
 {
-	if (!run)
-		return ;
-	else if (!run->args.values)
-		printf("|-> No args\n");
-	else
-	{
-		printf("|-> args = (%zu) ", run->args.size);
-		print_int_tab(run->args.values, run->args.size, 1);
-	}
-}
+	char	c;
 
-void	print_cell(t_cell *cell)
-{
-	printf("------------CELL[%zu][%zu]------------\n", cell->y, cell->x);
-	printf("|-> value = %d\n", cell->value);
-	printf("|-> possibilities (%d) = ", cell->choices.sum);
-	print_int_tab(cell->choices.tab, cell->choices.size, 1);
-	printf("----------------------------------\n");
-}
-
-void	print_map(t_run *run)
-{
-	size_t	i;
-	size_t	j;
-
-	if (!run)
-		return ;
-	else if (!run->map.cells)
-		printf("No map\n");
-	else
-	{
-		i = 0;
-		while (i < run->map.size && run->map.cells[i])
-		{
-			j = 0;
-			while (j < run->map.size && run->map.cells[i][j])
-			{
-				if (run->map.cells[i][j]->value == 0)
-					write (1, " ", 1);
-				else
-					ft_putnbr(run->map.cells[i][j]->value);
-				j++;
-			}
-			write(1, "\n", 1);
-			i++;
-		}
-	}
-}
-
-void	print_run(t_run *run)
-{
-	if (!run)
-		write(2, "No run\n", 7);
-	else
-	{
-		write(1, "\n------------------ RUN ------------------\n", 43);
-		print_args(run);
-		write(1, "-----------------------------------------\n", 42);
-		print_map(run);
-		write(1, "-----------------------------------------\n\n", 43);
-	}
+	write(1, "-----------ARGS----------\n", 26);
+	c = ((int) args->map_size) + '0';
+	write(1, "map_size = ", 11);
+	write(1, &c, 1);
+	write(1, "\n", 1);
+	write(1, "colup    = ", 11);
+	if (args->colup)
+		print_int_tab(args->colup, args->map_size, 0);
+	write(1, "\n", 1);
+	write(1, "coldown  = ", 11);
+	if (args->coldown)
+		print_int_tab(args->coldown, args->map_size, 0);
+	write(1, "\n", 1);
+	write(1, "rowleft  = ", 11);
+	if (args->rowleft)
+		print_int_tab(args->rowleft, args->map_size, 0);
+	write(1, "\n", 1);
+	write(1, "rowright = ", 11);
+	if (args->rowright)
+		print_int_tab(args->rowright, args->map_size, 0);
+	write(1, "\n", 1);
+	write(1, "-------------------------\n", 26);
 }

@@ -7,13 +7,8 @@
 # include <stdio.h>		// printf() - debug only
 
 # include "types.h"
-# include "utils.h"
-# include "cell.h"
-# include "map.h"
-# include "run.h"
-# include "backtrack.h"
-# include "minmax.h"
-# include "rowcol.h"
 # include "print.h"
+# include "run.h"
+# include "args.h"
 
 #endif
