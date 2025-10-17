@@ -1,4 +1,4 @@
-NAME	:= rush01
+NAME	:= rush-01
 CC		:= cc
 CFLAGS	:= -Wall -Wextra -Werror -MMD -MP -g3
 

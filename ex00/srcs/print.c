@@ -47,3 +47,26 @@ void	print_args(t_args *args)
 	write(1, "\n", 1);
 	write(1, "-------------------------\n", 26);
 }
+
+void	print_map(t_map	*map)
+{
+	size_t	i;
+	size_t	j;
+	char	c;
+
+	i = 0;
+	while (i < map->size)
+	{
+		j = 0;
+		while (j < map->size)
+		{
+			c = map->content[i][j] + '0';
+			write(1, &c, 1);
+			if (j < map->size - 1)
+				write(1, " ", 1);
+			j++;
+		}
+		write(1, "\n", 1);
+		i++;
+	}
+}

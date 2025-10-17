@@ -10,5 +10,8 @@
 # include "print.h"
 # include "run.h"
 # include "args.h"
+# include "map.h"
+# include "solve.h"
+# include "check.h"
 
 #endif

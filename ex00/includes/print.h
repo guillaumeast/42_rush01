@@ -5,5 +5,6 @@
 
 void	print_int_tab(int *tab, size_t size, int nl);
 void	print_args(t_args *args);
+void	print_map(t_map	*map);
 
 #endif

@@ -1,0 +1,153 @@
+Nice ! Tes sorties 6×6 et 7×7 montrent le **latin square cyclique** (chaque ligne est un décalage de 1). Ça matche pile les indices “en rampe” que tu donnes (6 5 4… / 1 2 2 2… etc.).
+Si ton 9×9 te semble parti pour 8 000 ans, c’est que ton backtracking ne **prune** pas assez tôt. Voilà comment le rendre *ultra* rapide (≤ ms pour N≤9).
+
+# Plan d’optim rapide (N ≤ 9)
+
+1. **Pré-génère toutes les permutations 1..N avec leurs visibilités**
+
+* Pour chaque permutation `p` (N! au max, 362 880 pour N=9), calcule une fois :
+
+  * `left_vis(p)` et `right_vis(p)`
+  * Un bitset “chiffres utilisés par colonne j” sera contrôlé plus tard.
+* Stocke-les **par couple (left,right)** dans des seaux :
+
+  * `bucket[left][right] = { liste d’indices de permutations }`
+* Pour les lignes dont un indice est 0 (absent), garde un seau “joker” (ex. `bucket_any_left[right]`, etc.).
+
+2. **Représente colonnes & lignes en bitmasks**
+
+* `uint16_t col_mask[N]` (ou `uint32_t`), bit i = “valeur (i+1) déjà utilisée dans cette colonne”.
+* Un **row candidate set** au choix, mais en pratique on ne réutilise pas: on prend directement des **permutations complètes** depuis les buckets → plus rapide.
+
+3. **Ordre des lignes = MRV (Minimum Remaining Values)**
+
+* Pour chaque ligne, regarde la taille du seau `(left,right)`. Trie les lignes à résoudre **du plus contraint au moins contraint**.
+* Recalcule vite fait une borne supérieure/minimale de compatibilité colonnes (cf. point 5) pour estimer encore mieux (optionnel, mais efficace).
+
+4. **Backtracking par lignes entières (et non case par case)**
+
+* À l’étape `k`, tu poses **une permutation entière** pour la ligne `row_order[k]`.
+* Tu rejettes si elle **entre en collision** avec `col_mask[j]` (valeur déjà prise dans la colonne j).
+* Si elle passe, tu “appliques” la ligne : mets à jour `col_mask[j]` (bitwise OR) et passe à la ligne suivante.
+
+5. **Pruning colonnes (col_up / col_down) en cours de route**
+
+* Maintiens, pour chaque colonne, pendant la pose progressive des lignes :
+
+  * `seen_up[j]` = nombre de “nouveaux max” vus depuis le haut avec les lignes déjà posées
+  * `current_max_up[j]` = hauteur max rencontrée
+  * Idem pour “down” si tu poses par le bas, sinon tu vérifieras “down” en fin ou avec une borne.
+* **Borne supérieure simple** : pour une colonne j, si l’indice `up[j]` est K,
+
+  * `seen_up[j] + remaining_best_possible < K` ⇒ **dead end** (ex. remaining_best_possible = nb de lignes restantes si, dans le meilleur cas, chaque prochaine pose dépasse le max courant; on peut raffiner avec les hauteurs encore disponibles si tu testes case par case, mais avec des lignes entières c’est déjà très filtrant).
+* En fin de grille, vérifie `col_down` exactement (ou maintiens aussi le miroir depuis le bas si tu veux pruner plus tôt).
+
+6. **Évite le coût des prints / malloc**
+
+* Pas de `printf` dans la boucle chaude.
+* Alloue tes structures une fois.
+* Compile **fort** : `-O3 -march=native -flto -DNDEBUG`.
+
+7. **Caches / LUT**
+
+* `left_vis(p)` & `right_vis(p)` en LUT (déjà fait en 1).
+* Si tu veux pousser, pré-calcule pour chaque permutation un **vecteur de bits par colonne** (`perm_bits[j] = 1u << (p[j]-1)`) pour faire les tests `col_mask[j] & perm_bits[j]` en une seule opération.
+
+---
+
+## Pseudo-algo (ligne par ligne)
+
+```c
+bool solve(int k) { // k = index dans l'ordre de lignes MRV
+    if (k == N) {
+        // toutes les lignes posées → vérifier col_down si pas maintenu
+        return check_all_col_down();
+    }
+
+    int row = row_order[k];
+    int L = row_left[row];   // 0 si non donné
+    int R = row_right[row];  // 0 si non donné
+
+    // récupère le seau: permutations compatibles avec (L,R) (ou tous si 0)
+    perm_list *cands = bucket(L, R);
+
+    for (perm p in cands) {
+        // test colonnes : pas de doublon
+        bool ok = true;
+        for (int j=0; j<N; ++j) {
+            if (col_mask[j] & perm_bits[p][j]) { ok = false; break; }
+        }
+        if (!ok) continue;
+
+        // borne "up" (et optionnellement "down") sur chaque colonne
+        if (!up_bounds_ok_after_placing_row(row, p)) continue;
+
+        // place
+        for (int j=0; j<N; ++j) {
+            col_mask[j] |= perm_bits[p][j];
+            // update seen_up[j], current_max_up[j] si tu maintiens ça
+        }
+
+        if (solve(k+1)) return true;
+
+        // backtrack
+        for (int j=0; j<N; ++j) {
+            col_mask[j] ^= perm_bits[p][j];
+            // restore seen_up[j], current_max_up[j] si maintenu
+        }
+    }
+    return false;
+}
+```
+
+---
+
+## Calcul “visibilité” (L/R) — O(N) avec early break
+
+```c
+static inline uint8_t vis_left(const uint8_t *row, int N) {
+    uint8_t max = 0, seen = 0;
+    for (int i=0; i<N; ++i) {
+        uint8_t h = row[i];
+        if (h > max) { max = h; ++seen; if (max == N) break; }
+    }
+    return seen;
+}
+```
+
+Même idée pour `vis_right`.
+
+---
+
+## Gains usuels constatés
+
+* Passer **case par case → ligne par ligne** + buckets (L,R) : ×10 à ×100.
+* MRV (ordre de lignes) : ×2 à ×5.
+* Bitmasks colonnes + LUT visibilités : ×3 à ×10.
+* Résultat : N=9 se résout **quasi instantanément** si les indices sont “raisonnablement contraignants”.
+
+---
+
+## Mesurer sans Instruments (vite fait)
+
+* Temps mural :
+
+  ```bash
+  /usr/bin/time -l ./rush-01 "<indices>"
+  ```
+* Ou en C, autour du solveur :
+
+  ```c
+  double t0 = now(); // CLOCK_MONOTONIC
+  bool ok = solve(0);
+  printf("solve: %.3f ms\n", (now()-t0)*1000.0);
+  ```
+
+---
+
+Si tu veux, je te file un **squelette C** prêt à coller pour :
+
+* générer les permutations + buckets (L/R),
+* le backtracking “ligne entière” avec bitmasks colonnes,
+* la vérif/pruning col_up en ligne,
+* et la vérif col_down finale.
