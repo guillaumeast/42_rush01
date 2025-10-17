@@ -1,4 +1,5 @@
-.DS_Store
-.vscode/
 obj/
-rush01
+rush-01
+todo.txt
+.vscode/
+.DS_Store
