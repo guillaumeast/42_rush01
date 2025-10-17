@@ -98,7 +98,7 @@ static int	*get_values(char *str, int start, size_t res_size)
 
 void	free_args(t_args **args)
 {
-	if (!args)
+	if (!args || !*args)
 		return ;
 	if ((*args)->colup)
 		free((*args)->colup);

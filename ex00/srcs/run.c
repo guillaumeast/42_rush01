@@ -14,7 +14,7 @@ t_run	*init_run()
 
 void	free_run(t_run **run)
 {
-	if (!*run)
+	if (!run || !*run)
 		return;
 	if ((*run)->args)
 		free_args(&(*run)->args);

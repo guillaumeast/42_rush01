@@ -11,6 +11,8 @@
 # include "run.h"
 # include "args.h"
 # include "map.h"
+# include "fix_max.h"
+# include "fix_min.h"
 # include "solve.h"
 # include "check.h"
 

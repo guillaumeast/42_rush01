@@ -21,6 +21,7 @@ typedef struct s_args
 
 typedef struct map
 {
+	t_bool	**fixed;
 	int		**content;
 	size_t	size;
 	t_bool	is_complete;
