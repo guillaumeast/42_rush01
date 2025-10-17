@@ -14,6 +14,7 @@
 # include "fix_max.h"
 # include "fix_min.h"
 # include "solve.h"
-# include "check.h"
+# include "check_cell.h"
+# include "check_all.h"
 
 #endif
