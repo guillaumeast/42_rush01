@@ -124,7 +124,7 @@ Results measured on the author’s machine (macOS / Apple M4 / Xcode Time Profil
 | 8×8  | > 30 min           | > 30 min                | < 1 ms                 |
 | 9×9  | > 30 min           | > 30 min                | < 1 ms                 |
 
-> v1.1.0 added a **pre-filling** of obvious values (for clue = 1 and clue = n).
+> v1.1.0 added a **pre-filling** of obvious values (for clue = 1 and clue = n).  
 > v1.2.0 introduces **real-time pruning** of impossible branches using partial visibility checks.  
 > With this, the solver reaches **sub-millisecond** performance up to 9×9 grids. ⚡️
 
